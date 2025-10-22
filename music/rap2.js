@@ -216,7 +216,7 @@ class Rap2Music {
 
         // Connecter les instruments directement au master
         this.kick.connect(masterGain);
-        this.bass.connect(masterGain);
+        this.bass808.connect(masterGain);
         this.snare.connect(masterGain);
         this.hihat.connect(masterGain);
         this.lead.connect(masterGain);

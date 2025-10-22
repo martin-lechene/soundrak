@@ -265,7 +265,7 @@ class Experimental2Music {
         // Connecter les instruments directement au master
         this.kick.connect(masterGain);
         this.bass.connect(masterGain);
-        this.snare.connect(masterGain);
+        this.percussion.connect(masterGain);
         this.hihat.connect(masterGain);
         this.lead.connect(masterGain);
         

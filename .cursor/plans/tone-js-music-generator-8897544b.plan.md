@@ -1,77 +1,86 @@
-<!-- 8897544b-7285-4f04-8c81-d59f771baf95 ad26ccb2-30d0-4490-823e-07c9f1e07fc2 -->
-# Application Musicale Tone.js avec 10 Compositions
+<!-- 8897544b-7285-4f04-8c81-d59f771baf95 e7cf9928-ec7e-4e07-b7ff-899add70724b -->
+# Plan de Correction des Erreurs Musicales
 
-## Structure du Projet
+## Problèmes Identifiés
 
-Créer une application web vanilla (HTML/CSS/JS) avec:
+1. **RAP Trap (rap2.js)**: Erreur "Cannot read properties of undefined (reading 'connect')" à la ligne 219
 
-- `index.html` - Page principale avec interface utilisateur
-- `styles.css` - Styling moderne et responsive
-- `app.js` - Gestion de l'interface et initialisation
-- `music/` - Dossier contenant les 10 compositions musicales
-- `techno.js` - Musique Techno (kicks répétitifs, basslines, hi-hats)
-- `hardcore.js` - Hardcore (tempo rapide ~180 BPM, kicks distordus)
-- `tekno.js` - Tekno (sons industriels, rythmes tribaux)
-- `house.js` - House (groove 4/4, bassline funky, piano chords)
-- `rap1.js` - RAP style 1 (boom bap, samples, drums lourds)
-- `rap2.js` - RAP style 2 (trap, hi-hats rapides, 808 bass)
-- `pop1.js` - Pop style 1 (mélodique, synths lumineux)
-- `pop2.js` - Pop style 2 (dance-pop, hooks accrocheurs)
-- `experimental1.js` - Mix expérimental 1
-- `experimental2.js` - Mix expérimental 2
-- `visualizer.js` - Visualisation audio (waveform/frequency analyzer)
-- `package.json` - Dépendances du projet
+   - Problème: La variable `this.bass` n'existe pas, mais le code utilise `this.bass808`
 
-## Fonctionnalités de l'Interface
+2. **Experimental 1 (experimental1.js)**: Erreur "Cannot read properties of undefined (reading 'connect')" à la ligne 235
 
-- **Liste des musiques** avec sélection visuelle
-- **Contrôles de lecture**: Play/Pause/Stop pour chaque musique
-- **Contrôles avancés**:
-- Volume master (slider)
-- Tempo/BPM (slider avec display)
-- Effets (reverb, delay, distortion) avec toggles et paramètres
-- **Visualisation audio**: Canvas avec analyzer de fréquences et waveform
-- **Design moderne**: Interface dark theme, animations, responsive
+   - Problème: La variable `this.snare` n'existe pas, mais le code utilise `this.percussion`
 
-## Architecture des Musiques
+3. **Experimental 2 (experimental2.js)**: Erreur similaire à Experimental 1
 
-Chaque fichier musique exportera une classe avec:
+   - Problème: Mêmes variables manquantes
 
-- `start()` - Démarre la composition
-- `stop()` - Arrête la composition
-- `setTempo(bpm)` - Ajuste le tempo
-- `setVolume(level)` - Ajuste le volume
-- `toggleEffect(effect, enabled)` - Active/désactive effets
-- Utilisation de `Tone.Transport`, `Tone.Loop`, `Tone.Pattern`
-- Instruments appropriés au style (synths, samplers, drums)
-- Effets adaptés (distortion, reverb, delay, filters)
+4. **Vocal Bilingue**: Erreur "Classe de musique non trouvée: VocalMusic"
 
-## Caractéristiques par Style
+   - Problème: La classe n'est pas disponible globalement
 
-**Techno**: Kicks 4/4 répétitifs, bassline hypnotique, hi-hats, synths acides (120-130 BPM)
+## Actions à Effectuer
 
-**Hardcore**: Tempo rapide (160-200 BPM), kicks distordus, breaks, hoover synths
+### 1. Corriger rap2.js (ligne 219)
 
-**Tekno**: Sons industriels, rythmes tribaux, minimal, acid (135-150 BPM)
+Remplacer:
 
-**House**: Groove 4/4, claps, bassline funky, piano/organ chords (120-128 BPM)
+```javascript
+this.bass.connect(masterGain);
+```
 
-**RAP (Boom Bap)**: Drums samplés, snare claps, bassline lourde, scratches (85-95 BPM)
+Par:
 
-**RAP (Trap)**: Hi-hats rapides (rolls), 808 bass slides, snaps (140 BPM)
+```javascript
+this.bass808.connect(masterGain);
+```
 
-**Pop 1**: Synths mélodiques, drums électroniques, progression d'accords (110-120 BPM)
+### 2. Corriger experimental1.js (ligne 235)
 
-**Pop 2**: Dance-pop énergique, hooks synth, builds/drops (125-130 BPM)
+Remplacer:
 
-**Experimental**: Combinaisons créatives des éléments ci-dessus
+```javascript
+this.snare.connect(masterGain);
+```
 
-## Technologies
+Par:
 
-- **Tone.js** (via CDN unpkg.com) pour la synthèse audio
-- **HTML5 Canvas** pour la visualisation
-- **Vanilla JavaScript** (ES6+)
-- **CSS3** avec animations et transitions
+```javascript
+this.percussion.connect(masterGain);
+```
+
+### 3. Corriger experimental2.js (ligne 268)
+
+Remplacer:
+
+```javascript
+this.snare.connect(masterGain);
+```
+
+Par:
+
+```javascript
+this.percussion.connect(masterGain);
+```
+
+### 4. Vérifier les autres instruments dans ces fichiers
+
+- S'assurer que tous les instruments utilisés dans `connectToOutput()` correspondent aux instruments créés dans `setupInstruments()`
+
+### 5. Tester toutes les musiques
+
+- Vérifier que chaque bouton Play fonctionne sans erreur
+- Confirmer que l'audio se joue correctement
+
+## Fichiers à Modifier
+
+- `music/rap2.js` (ligne 219)
+- `music/experimental1.js` (ligne 235)
+- `music/experimental2.js` (ligne 268)
+
+## Note sur VocalMusic
+
+La classe VocalMusic existe dans le fichier `music/vocal.js` et est chargée dans `index.html`. Le problème vient probablement du fait que la classe n'est pas disponible au moment de l'initialisation. Vérifier que le script est bien chargé et que la classe est disponible globalement.
 
 ### To-dos
 

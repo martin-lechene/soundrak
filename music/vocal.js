@@ -346,3 +346,6 @@ class VocalMusic {
         }
     }
 }
+
+// Rendre la classe disponible globalement
+window.VocalMusic = VocalMusic;
