@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundrak - Tone.js Music Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
+    <script>
+        // Initialiser l'application après le chargement de tous les scripts
+        window.addEventListener('load', () => {
+            console.log('Page chargée, initialisation de l\'application...');
+            
+            // Attendre que le DOM soit complètement prêt
+            setTimeout(() => {
+                console.log('Vérification des dépendances...');
+                console.log('Tone:', typeof Tone !== 'undefined');
+                console.log('MusicApp:', typeof MusicApp !== 'undefined');
+                
+                // Vérifier que l'élément musicGrid existe
+                const musicGrid = document.getElementById('musicGrid');
+                console.log('musicGrid trouvé:', musicGrid !== null);
+                
+                if (typeof Tone !== 'undefined' && typeof MusicApp !== 'undefined' && musicGrid) {
+                    console.log('Tous les scripts chargés, initialisation de l\'app');
+                    try {
+                        window.app = new MusicApp();
+                        console.log('Application initialisée avec succès');
+                    } catch (error) {
+                        console.error('Erreur lors de l\'initialisation de l\'app:', error);
+                    }
+                } else {
+                    console.error('Dépendances manquantes:', {
+                        Tone: typeof Tone !== 'undefined',
+                        MusicApp: typeof MusicApp !== 'undefined',
+                        musicGrid: musicGrid !== null
+                    });
+                    // Réessayer après 1 seconde
+                    setTimeout(() => {
+                        if (typeof Tone !== 'undefined' && typeof MusicApp !== 'undefined') {
+                            console.log('Réessai - initialisation de l\'app');
+                            window.app = new MusicApp();
+                        }
+                    }, 1000);
+                }
+            }, 1000);
+        });
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🎵 Soundrak</h1>
+            <p>Générateur de musiques avec Tone.js</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Music Selection -->
+            <section class="music-selection">
+                <h2>Compositions Musicales</h2>
+                <div class="music-grid" id="musicGrid">
+                    <!-- Les musiques seront ajoutées dynamiquement -->
+                    <div id="loading-message" style="text-align: center; padding: 20px; color: #4a9eff;">
+                        <p>Chargement des compositions...</p>
+                        <button onclick="forceInit()" class="btn btn-primary" style="margin-top: 10px;">
+                            🔄 Réinitialiser
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Controls -->
+            <section class="controls">
+                <h2>Contrôles</h2>
+                <div class="control-panel">
+                    <!-- Master Controls -->
+                    <div class="master-controls">
+                        <div class="control-group">
+                            <label for="masterVolume">Volume Master</label>
+                            <input type="range" id="masterVolume" min="0" max="1" step="0.01" value="0.7">
+                            <span id="volumeDisplay">70%</span>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label for="tempo">Tempo (BPM)</label>
+                            <input type="range" id="tempo" min="60" max="200" step="1" value="120">
+                            <span id="tempoDisplay">120 BPM</span>
+                        </div>
+                    </div>
+
+                    <!-- Effects Controls -->
+                    <div class="effects-controls">
+                        <h3>Effets</h3>
+                        <div class="effects-grid">
+                            <div class="effect-control">
+                                <label>
+                                    <input type="checkbox" id="reverbToggle">
+                                    Reverb
+                                </label>
+                                <input type="range" id="reverbAmount" min="0" max="1" step="0.01" value="0.3" disabled>
+                            </div>
+                            
+                            <div class="effect-control">
+                                <label>
+                                    <input type="checkbox" id="delayToggle">
+                                    Delay
+                                </label>
+                                <input type="range" id="delayAmount" min="0" max="1" step="0.01" value="0.2" disabled>
+                            </div>
+                            
+                            <div class="effect-control">
+                                <label>
+                                    <input type="checkbox" id="distortionToggle">
+                                    Distortion
+                                </label>
+                                <input type="range" id="distortionAmount" min="0" max="1" step="0.01" value="0.1" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visualizer -->
+            <section class="visualizer-section">
+                <h2>Visualisation Audio</h2>
+                <canvas id="visualizer" width="800" height="200"></canvas>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by Tone.js | Soundrak 2024</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="visualizer.js"></script>
+    <script src="music/techno.js"></script>
+    <script src="music/hardcore.js"></script>
+    <script src="music/tekno.js"></script>
+    <script src="music/house.js"></script>
+    <script src="music/rap1.js"></script>
+    <script src="music/rap2.js"></script>
+    <script src="music/pop1.js"></script>
+    <script src="music/pop2.js"></script>
+    <script src="music/experimental1.js"></script>
+    <script src="music/experimental2.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Fonction pour forcer l'initialisation
+        function forceInit() {
+            console.log('🔄 Forçage de l\'initialisation...');
+            
+            // Vérifier que tous les éléments DOM existent
+            const musicGrid = document.getElementById('musicGrid');
+            if (!musicGrid) {
+                console.error('❌ Élément musicGrid non trouvé');
+                alert('Erreur: Élément musicGrid non trouvé. Rechargez la page.');
+                return;
+            }
+            
+            if (typeof MusicApp !== 'undefined') {
+                try {
+                    window.app = new MusicApp();
+                    console.log('✅ Application forcée initialisée');
+                } catch (error) {
+                    console.error('❌ Erreur lors de l\'initialisation forcée:', error);
+                    alert('Erreur lors de l\'initialisation: ' + error.message);
+                }
+            } else {
+                console.error('❌ MusicApp non disponible');
+                alert('Erreur: MusicApp non chargé. Vérifiez la console pour plus de détails.');
+            }
+        }
+        
+        // Masquer le message de chargement quand l'app est prête
+        function hideLoadingMessage() {
+            const loadingMsg = document.getElementById('loading-message');
+            if (loadingMsg) {
+                loadingMsg.style.display = 'none';
+            }
+        }
+        
+        // Exposer la fonction globalement
+        window.hideLoadingMessage = hideLoadingMessage;
+    </script>
+</body>
+</html>

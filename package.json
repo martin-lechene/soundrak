@@ -1,0 +1,16 @@
+{
+  "name": "tone-js-music-generator",
+  "version": "1.0.0",
+  "description": "Application musicale avec 10 compositions génératives en Tone.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "npx http-server -p 3000 -c-1",
+    "dev": "npx http-server -p 3000 -c-1 -o"
+  },
+  "keywords": ["tone.js", "music", "web-audio", "synthesizer"],
+  "author": "Soundrak",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
