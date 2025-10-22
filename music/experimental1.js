@@ -239,33 +239,6 @@ class Experimental1Music {
         // Appliquer les effets si activés
         this.updateEffects();
     }
-        if (this.effects.delay.enabled) {
-            this.delay.connect(effectsChain);
-        }
-        if (this.effects.reverb.enabled) {
-            this.reverb.connect(effectsChain);
-        }
-        
-        // Ajouter le bitcrusher pour l'effet numérique
-        this.bitcrusher.connect(effectsChain);
-        
-        effectsChain.connect(this.analyser);
-        this.analyser.toDestination();
-
-        // Connecter les instruments
-        this.kick.connect(this.bitcrusher);
-        this.bass.connect(this.bitcrusher);
-        this.percussion.connect(this.bitcrusher);
-        this.hihat.connect(this.bitcrusher);
-        
-        // Lead avec chorus
-        this.lead.connect(this.chorus);
-        this.chorus.connect(this.bitcrusher);
-        
-        // Pad avec tremolo
-        this.pad.connect(this.tremolo);
-        this.tremolo.connect(this.bitcrusher);
-    }
 
     start() {
         if (this.isPlaying) return;

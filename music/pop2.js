@@ -266,31 +266,6 @@ class Pop2Music {
         // Appliquer les effets si activés
         this.updateEffects();
     }
-        if (this.effects.delay.enabled) {
-            this.delay.connect(effectsChain);
-        }
-        if (this.effects.reverb.enabled) {
-            this.reverb.connect(effectsChain);
-        }
-        
-        effectsChain.connect(this.analyser);
-        this.analyser.toDestination();
-
-        // Connecter les instruments
-        this.kick.connect(this.compressor);
-        this.bass.connect(this.compressor);
-        this.snare.connect(this.compressor);
-        this.hihat.connect(this.compressor);
-        this.arp.connect(this.compressor);
-        
-        // Lead avec chorus
-        this.lead.connect(this.chorus);
-        this.chorus.connect(this.compressor);
-        
-        // Pad avec tremolo
-        this.pad.connect(this.tremolo);
-        this.tremolo.connect(this.compressor);
-    }
 
     start() {
         if (this.isPlaying) return;

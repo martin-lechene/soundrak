@@ -258,31 +258,6 @@ class Pop1Music {
         // Appliquer les effets si activés
         this.updateEffects();
     }
-        if (this.effects.delay.enabled) {
-            this.delay.connect(effectsChain);
-        }
-        if (this.effects.reverb.enabled) {
-            this.reverb.connect(effectsChain);
-        }
-        
-        effectsChain.connect(this.analyser);
-        this.analyser.toDestination();
-
-        // Connecter les instruments
-        this.kick.connect(effectsChain);
-        this.bass.connect(effectsChain);
-        this.snare.connect(effectsChain);
-        this.hihat.connect(effectsChain);
-        this.lead.connect(effectsChain);
-        
-        // Piano avec chorus
-        this.piano.connect(this.chorus);
-        this.chorus.connect(effectsChain);
-        
-        // Pad avec tremolo
-        this.pad.connect(this.tremolo);
-        this.tremolo.connect(effectsChain);
-    }
 
     start() {
         if (this.isPlaying) return;

@@ -224,24 +224,6 @@ class Rap2Music {
         // Appliquer les effets si activés
         this.updateEffects();
     }
-        if (this.effects.delay.enabled) {
-            this.delay.connect(effectsChain);
-        }
-        if (this.effects.reverb.enabled) {
-            this.reverb.connect(effectsChain);
-        }
-        
-        effectsChain.connect(this.analyser);
-        this.analyser.toDestination();
-
-        // Connecter les instruments
-        this.kick.connect(this.compressor);
-        this.bass808.connect(this.compressor);
-        this.snare.connect(this.compressor);
-        this.hihat.connect(this.compressor);
-        this.hihatRoll.connect(this.compressor);
-        this.lead.connect(this.compressor);
-    }
 
     start() {
         if (this.isPlaying) return;

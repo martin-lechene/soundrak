@@ -19,6 +19,7 @@ class MusicApp {
             { id: 'rap2', name: 'RAP Trap', description: 'Hi-hats rapides, 808 bass', bpm: 140, class: 'Rap2Music' },
             { id: 'pop1', name: 'Pop Mélodique', description: 'Synths lumineux, progression d\'accords', bpm: 115, class: 'Pop1Music' },
             { id: 'pop2', name: 'Dance Pop', description: 'Énergique, hooks synth', bpm: 128, class: 'Pop2Music' },
+            { id: 'vocal', name: 'Vocal Bilingue', description: 'Chant doux français/anglais, mélodies harmonieuses', bpm: 100, class: 'VocalMusic' },
             { id: 'experimental1', name: 'Experimental 1', description: 'Mix créatif de styles', bpm: 110, class: 'Experimental1Music' },
             { id: 'experimental2', name: 'Experimental 2', description: 'Exploration sonore avancée', bpm: 135, class: 'Experimental2Music' }
         ];
