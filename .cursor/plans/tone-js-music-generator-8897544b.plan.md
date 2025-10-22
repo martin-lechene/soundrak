@@ -1,86 +1,162 @@
-<!-- 8897544b-7285-4f04-8c81-d59f771baf95 e7cf9928-ec7e-4e07-b7ff-899add70724b -->
-# Plan de Correction des Erreurs Musicales
+<!-- 8897544b-7285-4f04-8c81-d59f771baf95 c0289617-dce8-439d-8778-0a3a46e94425 -->
+# Plan: 10 Visualisations Audio Spectrum UI/UX
 
-## Problèmes Identifiés
+## Vue d'ensemble
 
-1. **RAP Trap (rap2.js)**: Erreur "Cannot read properties of undefined (reading 'connect')" à la ligne 219
+Créer 10 styles de visualisation audio spectrum différents inspirés de l'image fournie (barres horizontales avec flèches) et permettre à l'utilisateur de basculer entre ces modes.
 
-   - Problème: La variable `this.bass` n'existe pas, mais le code utilise `this.bass808`
+## Structure proposée
 
-2. **Experimental 1 (experimental1.js)**: Erreur "Cannot read properties of undefined (reading 'connect')" à la ligne 235
+### 1. Architecture du code
 
-   - Problème: La variable `this.snare` n'existe pas, mais le code utilise `this.percussion`
+Modifier `visualizer.js` pour :
 
-3. **Experimental 2 (experimental2.js)**: Erreur similaire à Experimental 1
+- Ajouter une propriété `visualizationMode` (valeurs: 1-10)
+- Créer 10 méthodes de dessin différentes
+- Ajouter une méthode `setVisualizationMode(mode)` pour changer le style
+- Garder la compatibilité avec le code existant
 
-   - Problème: Mêmes variables manquantes
+### 2. Les 10 Styles de Visualisation
 
-4. **Vocal Bilingue**: Erreur "Classe de musique non trouvée: VocalMusic"
+#### Mode 1: Spectrum Classique Vertical
 
-   - Problème: La classe n'est pas disponible globalement
+- Barres verticales traditionnelles du bas vers le haut
+- Gradient bleu (#4a9eff) vers cyan (#00d4ff)
+- 64 barres
 
-## Actions à Effectuer
+#### Mode 2: Spectrum Horizontal (comme l'image)
 
-### 1. Corriger rap2.js (ligne 219)
+- Barres horizontales de gauche à droite
+- Style épuré avec bordures
+- Flèches de navigation gauche/droite
+- Gradient horizontal
 
-Remplacer:
+#### Mode 3: Spectrum Circulaire
 
-```javascript
-this.bass.connect(masterGain);
+- Barres disposées en cercle (360°)
+- Centre du canvas comme origine
+- Rotation continue des couleurs
+- 48 barres autour du cercle
+
+#### Mode 4: Spectrum Miroir Vertical
+
+- Barres verticales partant du centre vers haut et bas
+- Effet de symétrie
+- Gradient symétrique
+
+#### Mode 5: Spectrum 3D Perspective
+
+- Barres avec effet de profondeur
+- Ombre portée et perspective
+- Couleurs plus foncées pour l'arrière-plan
+
+#### Mode 6: Spectrum Particules
+
+- Points lumineux animés basés sur les fréquences
+- Effet de traînée (ghosting)
+- Particules colorées
+
+#### Mode 7: Spectrum Radial
+
+- Barres partant du centre vers l'extérieur en étoile
+- 32 rayons
+- Couleurs arc-en-ciel
+
+#### Mode 8: Spectrum Waveform Stylisé
+
+- Forme d'onde continue avec remplissage
+- Effet de glow/lueur
+- Courbes lissées (Bézier)
+
+#### Mode 9: Spectrum Matrix/Grille
+
+- Grille de points lumineux (10x10)
+- Intensité basée sur les fréquences
+- Style néon vert/bleu
+
+#### Mode 10: Spectrum Liquide/Blob
+
+- Formes organiques qui bougent
+- Effet de métaballs
+- Animation fluide
+
+### 3. Interface de sélection
+
+Ajouter dans `index.html` une section de contrôle:
+
+```html
+<div class="visualization-controls">
+  <label>Style de visualisation:</label>
+  <select id="vizMode">
+    <option value="1">Classique Vertical</option>
+    <option value="2">Horizontal (Barres)</option>
+    <option value="3">Circulaire</option>
+    <option value="4">Miroir Vertical</option>
+    <option value="5">3D Perspective</option>
+    <option value="6">Particules</option>
+    <option value="7">Radial</option>
+    <option value="8">Waveform Stylisé</option>
+    <option value="9">Matrix/Grille</option>
+    <option value="10">Liquide/Blob</option>
+  </select>
+</div>
 ```
 
-Par:
+### 4. Connexion avec app.js
+
+Dans `app.js`, ajouter la gestion du changement de mode:
 
 ```javascript
-this.bass808.connect(masterGain);
+// Dans setupControls()
+const vizModeSelect = document.getElementById('vizMode');
+vizModeSelect.addEventListener('change', (e) => {
+    this.visualizer.setVisualizationMode(parseInt(e.target.value));
+});
 ```
 
-### 2. Corriger experimental1.js (ligne 235)
+### 5. Styles CSS
 
-Remplacer:
+Ajouter dans `styles.css`:
 
-```javascript
-this.snare.connect(masterGain);
+```css
+.visualization-controls {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.visualization-controls select {
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #4a9eff;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
 ```
 
-Par:
+## Fichiers à modifier
 
-```javascript
-this.percussion.connect(masterGain);
-```
+1. **visualizer.js** - Ajouter les 10 méthodes de visualisation
+2. **index.html** - Ajouter le sélecteur de mode
+3. **app.js** - Connecter le sélecteur avec le visualizer
+4. **styles.css** - Styliser le sélecteur
 
-### 3. Corriger experimental2.js (ligne 268)
+## Priorité de développement
 
-Remplacer:
+1. Mode 2 (Horizontal) - Le plus demandé (image fournie)
+2. Mode 1 (Classique) - Déjà existant, à garder
+3. Mode 3 (Circulaire) - Effet visuel intéressant
+4. Mode 8 (Waveform) - Élégant et performant
+5. Modes 4-10 - À implémenter ensuite
 
-```javascript
-this.snare.connect(masterGain);
-```
+## Performance
 
-Par:
-
-```javascript
-this.percussion.connect(masterGain);
-```
-
-### 4. Vérifier les autres instruments dans ces fichiers
-
-- S'assurer que tous les instruments utilisés dans `connectToOutput()` correspondent aux instruments créés dans `setupInstruments()`
-
-### 5. Tester toutes les musiques
-
-- Vérifier que chaque bouton Play fonctionne sans erreur
-- Confirmer que l'audio se joue correctement
-
-## Fichiers à Modifier
-
-- `music/rap2.js` (ligne 219)
-- `music/experimental1.js` (ligne 235)
-- `music/experimental2.js` (ligne 268)
-
-## Note sur VocalMusic
-
-La classe VocalMusic existe dans le fichier `music/vocal.js` et est chargée dans `index.html`. Le problème vient probablement du fait que la classe n'est pas disponible au moment de l'initialisation. Vérifier que le script est bien chargé et que la classe est disponible globalement.
+- Utiliser `requestAnimationFrame` pour toutes les animations
+- Limiter le nombre d'éléments dessinés selon le mode
+- Optimiser les calculs mathématiques (pré-calculer les angles, positions)
+- Ajouter une option de qualité (haute/moyenne/basse)
 
 ### To-dos
 

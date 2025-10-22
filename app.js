@@ -119,6 +119,9 @@ class MusicApp {
 
         // Effets
         this.setupEffectControls();
+        
+        // Visualisation
+        this.setupVisualizationControls();
     }
 
     setupEffectControls() {
@@ -176,6 +179,18 @@ class MusicApp {
             this.effects.distortion.amount = parseFloat(e.target.value);
             if (this.currentMusic && this.effects.distortion.enabled) {
                 this.currentMusic.setEffectAmount('distortion', this.effects.distortion.amount);
+            }
+        });
+    }
+
+    setupVisualizationControls() {
+        const vizModeSelect = document.getElementById('vizMode');
+        
+        vizModeSelect.addEventListener('change', (e) => {
+            const mode = parseInt(e.target.value);
+            if (this.visualizer) {
+                this.visualizer.setVisualizationMode(mode);
+                console.log(`Mode de visualisation changé: ${mode}`);
             }
         });
     }

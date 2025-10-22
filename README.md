@@ -208,4 +208,4 @@ soundrak/
 
 ---
 
-*Powered by Tone.js | Soundrak 2024*
+*Powered by Tone.js | Soundrak 2025 by [Martin L.](https://www.github.com/martin-lechene)*
