@@ -253,7 +253,7 @@ class MusicApp {
             this.currentMusic.start();
             
             // Mettre à jour l'interface
-            this.updateMusicInterface(musicId);
+            this.updateMusicInterface(musicId, false);
             
             console.log(`Musique ${musicInfo.name} démarrée`);
         } catch (error) {
@@ -266,12 +266,12 @@ class MusicApp {
             this.currentMusic.stop();
             this.currentMusic = null;
             this.visualizer.stopVisualization();
-            this.updateMusicInterface(null);
+            this.updateMusicInterface(null, false);
             console.log('Musique arrêtée');
         }
     }
 
-    updateMusicInterface(activeMusicId) {
+    updateMusicInterface(activeMusicId, paused = false) {
         // Mettre à jour les cartes de musique
         this.musicCompositions.forEach(music => {
             const card = document.getElementById(`music-${music.id}`);
@@ -280,9 +280,14 @@ class MusicApp {
             
             if (music.id === activeMusicId) {
                 card.classList.add('active', 'playing');
-                playBtn.textContent = '⏸️ Pause';
-                playBtn.onclick = () => this.pauseMusic();
                 stopBtn.disabled = false;
+                if (paused) {
+                    playBtn.textContent = '▶️ Reprendre';
+                    playBtn.onclick = () => this.pauseMusic();
+                } else {
+                    playBtn.textContent = '⏸️ Pause';
+                    playBtn.onclick = () => this.pauseMusic();
+                }
             } else {
                 card.classList.remove('active', 'playing');
                 playBtn.textContent = '▶️ Play';
@@ -296,10 +301,10 @@ class MusicApp {
         if (this.currentMusic) {
             if (this.currentMusic.isPaused) {
                 this.currentMusic.resume();
-                this.updateMusicInterface(this.getCurrentMusicId());
+                this.updateMusicInterface(this.getCurrentMusicId(), false);
             } else {
                 this.currentMusic.pause();
-                this.updateMusicInterface(null);
+                this.updateMusicInterface(this.getCurrentMusicId(), true);
             }
         }
     }

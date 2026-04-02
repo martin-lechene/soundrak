@@ -1,0 +1,5 @@
+services:
+  soundrak:
+    build: .
+    ports:
+      - "8364:8364"
